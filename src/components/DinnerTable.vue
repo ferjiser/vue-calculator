@@ -46,8 +46,6 @@
 
 <script>
 const LOCAL_STORAGE_AMOUNTS_KEY = 'amounts';
-const setLocalStorage = (key, value) => localStorage.setItem(key, JSON.stringify(value));
-const parseIntValue = value => parseInt(value, 10);
 
 export default {
   name: 'DinnerTable',
@@ -61,9 +59,9 @@ export default {
   },
   mounted(){
         const {dinner= this.dinner, tip=this.tip, people=this.people}  = JSON.parse(localStorage.getItem(LOCAL_STORAGE_AMOUNTS_KEY)) || {};
-        this.dinner= parseIntValue(dinner),
-        this.tip= parseIntValue(tip),
-        this.people= parseIntValue(people)
+        this.dinner= dinner,
+        this.tip= tip,
+        this.people= people
     },
    computed: {
         totalWithTaxes() {
@@ -99,7 +97,7 @@ export default {
     },
     watch: {
         stateToLocalStorge(){
-            setLocalStorage(LOCAL_STORAGE_AMOUNTS_KEY, this.stateToLocalStorge)
+            localStorage.setItem(LOCAL_STORAGE_AMOUNTS_KEY, JSON.stringify(this.stateToLocalStorge))
         }
     } 
 }
