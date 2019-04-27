@@ -45,17 +45,27 @@
 </template>
 
 <script>
+const LOCAL_STORAGE_AMOUNTS_KEY = 'amounts';
+const setLocalStorage = (key, value) => localStorage.setItem(key, JSON.stringify(value));
+const parseIntValue = value => parseInt(value, 10);
+
 export default {
   name: 'DinnerTable',
   data(){
       return {
-        dinner: 100,
-        tip: 9,
-        people: 2,
+        dinner: 0,
+        tip: 0,
+        people: 1,
         taxes: 21
       }
   },
-  computed: {
+  mounted(){
+        const {dinner= this.dinner, tip=this.tip, people=this.people}  = JSON.parse(localStorage.getItem(LOCAL_STORAGE_AMOUNTS_KEY)) || {};
+        this.dinner= parseIntValue(dinner),
+        this.tip= parseIntValue(tip),
+        this.people= parseIntValue(people)
+    },
+   computed: {
         totalWithTaxes() {
             return this.dinner*(1+this.taxes/100);
         },
@@ -64,6 +74,13 @@ export default {
         },
         totalPerPerson() {
             return this.people > 0 ? this.totalWithTips/this.people: 0;
+        },
+        stateToLocalStorge(){
+           return {
+               dinner: this.dinner,
+               people: this.people,
+               tip: this.tip
+           }
         }
     },
   filters: {
@@ -74,23 +91,17 @@ export default {
   },
   methods: {
         increment(type){
-            this[type]++; 
+            this[type]++;
         },
         decrement(type){
-              this[type] > 0 && this[type]--; 
+            this[type] > 0 && this[type]--;
         }
     },
-    /* watch: {
-        dinner: {
-            //Es mejor usar computadas. 
-            //El immediate y el handler es para que en la carga del componente no haya que 
-            // forzar el cambio del valor para que se actualice el valor.
-            immediate: true,
-            handler(){
-                this.totalWithTaxes = his.dinner*(1+21/100)
-            }
+    watch: {
+        stateToLocalStorge(){
+            setLocalStorage(LOCAL_STORAGE_AMOUNTS_KEY, this.stateToLocalStorge)
         }
-    } */
+    } 
 }
 </script>
 
