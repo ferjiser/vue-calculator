@@ -1,21 +1,17 @@
 <template>
     <div id="app">
       <h1>Dinner calculator</h1>
-      <Table
-        :dinner=100
-        :tip=9
-        :people=2
-      ></Table>
+      <DinnerTable/>
     </div>
 </template>
 
 <script>
-import Table from './components/Table.vue'
+import DinnerTable from './components/DinnerTable.vue'
 
 export default {
   name: 'app',
   components: {
-    Table
+    DinnerTable
   }
 }
 </script>

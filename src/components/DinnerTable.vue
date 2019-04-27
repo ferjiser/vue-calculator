@@ -46,24 +46,14 @@
 
 <script>
 export default {
-  name: 'Table',
-  props: {
-    dinner: {
-        type: Number,
-        default: 0
-    },
-    tip: {
-        type: Number,
-        default: 0
-    },
-    people: {
-        type: Number,
-        default: 0
-    },
-    taxes: {
-        type: Number,
-        default: 21
-    }
+  name: 'DinnerTable',
+  data(){
+      return {
+        dinner: 100,
+        tip: 9,
+        people: 2,
+        taxes: 21
+      }
   },
   computed: {
         totalWithTaxes() {
@@ -73,7 +63,7 @@ export default {
             return this.totalWithTaxes + this.tip;
         },
         totalPerPerson() {
-            return this.totalWithTips/this.people;
+            return this.people > 0 ? this.totalWithTips/this.people: 0;
         }
     },
   filters: {
@@ -87,7 +77,7 @@ export default {
             this[type]++; 
         },
         decrement(type){
-              this[type]--; 
+              this[type] > 0 && this[type]--; 
         }
     }
 }
