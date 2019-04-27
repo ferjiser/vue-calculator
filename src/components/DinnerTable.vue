@@ -79,7 +79,18 @@ export default {
         decrement(type){
               this[type] > 0 && this[type]--; 
         }
-    }
+    },
+    /* watch: {
+        dinner: {
+            //Es mejor usar computadas. 
+            //El immediate y el handler es para que en la carga del componente no haya que 
+            // forzar el cambio del valor para que se actualice el valor.
+            immediate: true,
+            handler(){
+                this.totalWithTaxes = his.dinner*(1+21/100)
+            }
+        }
+    } */
 }
 </script>
 
